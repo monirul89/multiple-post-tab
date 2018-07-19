@@ -1,0 +1,151 @@
+
+<?php wp_head(); ?>
+
+<?php get_header(); ?>
+
+<section id="content">
+    <div class="container">
+        <p>In this example, we use JavaScript to "click" on the London button, to open the tab on page load.</p>
+
+        <div class="tab">
+            <button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen">All Post</button>
+            <button class="tablinks" onclick="openCity(event, 'Paris')">Export</button>
+            <button class="tablinks" onclick="openCity(event, 'Tokyo')">Import</button>
+            <button class="tablinks" onclick="openCity(event, 'Extra')">Extra</button>
+        </div>
+
+        <div id="London" class="tabcontent">
+            <h3>All Post</h3>
+            <p>London is the capital city of England.</p>
+            <?php
+            $args = array(
+                'post_type' => array('post', 'product','slider'),
+                'cache_results' => false
+            );
+
+            $loop = new WP_Query($args);
+
+            while ($loop->have_posts()) : $loop->the_post();
+                ?>
+
+                <section id="content">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <article>
+                                    <div class="post-image blog-area">
+                                        <h2><?php the_title(); ?></h2>
+                                        <img src="<?php the_post_thumbnail_url('medium') ?>">                                    
+                                        <p><?php the_content(); ?></p>
+                                    </div>
+                                </article>
+                            </div>
+                            <div class="col-lg-4">
+                                <article>
+                                    <div class="post-image blog-area">
+                                        <?php get_sidebar('sidebar_blog_id') ?>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <?php
+            endwhile;
+            ?>
+        </div>
+
+        <div id="Paris" class="tabcontent">
+            <h3>Export</h3>
+            <p>Paris is the capital of France.</p>
+
+            <?php
+            $args = array(
+                'post_type' => array('product'),
+                'cache_results' => false
+            );
+
+            $loop = new WP_Query($args);
+
+            while ($loop->have_posts()) : $loop->the_post();
+                ?>
+                <div class="col-md-4">
+                    <img src="<?php the_post_thumbnail_url('medium') ?>">
+                    <h4><?php echo the_title(); ?></h4>
+                    <p><a class="btn btn-danger" href="<?php echo the_permalink(); ?>" role="button">Click Here</a></p>
+
+                </div>
+            <?php endwhile; ?>
+        </div>
+
+        <div id="Tokyo" class="tabcontent">
+            <h3>Import</h3>
+            <p>Tokyo is the capital of Japan.</p>
+            <?php
+            $args = array(
+                'post_type' => array('slider','product'),
+                'cache_results' => false
+            );
+
+            $loop = new WP_Query($args);
+
+            while ($loop->have_posts()) : $loop->the_post();
+                ?>
+                <div class="col-md-4">
+                    <img src="<?php the_post_thumbnail_url('medium') ?>">
+                    <h4><?php echo the_title(); ?></h4>
+                    <p><a class="btn btn-danger" href="<?php echo the_permalink(); ?>" role="button">Click Here</a></p>
+
+                </div>
+            <?php endwhile; ?>
+        </div>
+        <div id="Extra" class="tabcontent">
+            <h3>Import</h3>
+            <p>Tokyo is the capital of Japan.</p>
+            <?php
+            $args = array(
+                'post_type' => array('slider','product'),
+                'cache_results' => false
+            );
+
+            $loop = new WP_Query($args);
+
+            while ($loop->have_posts()) : $loop->the_post();
+                ?>
+                <div class="col-md-4">
+                    <img src="<?php the_post_thumbnail_url('medium') ?>">
+                    <h4><?php echo the_title(); ?></h4>
+                    <p><a class="btn btn-danger" href="<?php echo the_permalink(); ?>" role="button">Click Here</a></p>
+
+                </div>
+            <?php endwhile; ?>
+        </div>
+    </div>
+</section>
+<script>
+    function openCity(evt, cityName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+
+// Get the element with id="defaultOpen" and click on it
+    document.getElementById("defaultOpen").click();
+</script>
+
+
+<?php get_footer(); ?>
+
+<?php wp_footer(); ?>
+
+
+
